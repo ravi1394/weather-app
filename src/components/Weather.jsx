@@ -71,7 +71,7 @@ const Weather = () => {
     };
 
     useEffect(() => {
-        search("Patna"); // Default city on load
+        search("");
     }, []);
 
     return (
