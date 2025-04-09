@@ -17,6 +17,7 @@ const Weather = () => {
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [isDark, setIsDark] = useState(false);
+    const [recentSearches, setRecentSearches] = useState([]);
 
     const allIcons = {
         "01d": clear_icon,
@@ -33,6 +34,13 @@ const Weather = () => {
         "10n": rain_icon,
         "13d": snow_icon,
         "13n": snow_icon
+    };
+
+    const updateRecentSearches = (city) => {
+        setRecentSearches(prev => {
+            const updated = [city, ...prev.filter(c => c.toLowerCase() !== city.toLowerCase())];
+            return updated.slice(0, 5);
+        });
     };
 
     const search = async (city) => {
@@ -62,6 +70,8 @@ const Weather = () => {
                 location: data.name,
                 icon: icon
             });
+            
+            updateRecentSearches(data.name);
         } catch (error) {
             setErrorMsg('Failed to fetch weather data');
             setWeatherData(null);
@@ -92,6 +102,17 @@ const Weather = () => {
                 />
                 <img src={search_icon} alt="search" onClick={() => search(inputRef.current.value)} />
             </div>
+
+            {recentSearches.length > 0 && (
+                <div className="recent-searches">
+                    <p>Recent:</p>
+                    {recentSearches.map((city, idx) => (
+                        <button key={idx} onClick={() => search(city)}>
+                            {city}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             {loading ? (
                 <div className="loader">Loading...</div>

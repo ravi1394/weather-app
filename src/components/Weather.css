@@ -128,3 +128,10 @@
     color: #fff;
     font-size: 18px;
 }
+.recent-searches {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
